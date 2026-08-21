@@ -1,0 +1,593 @@
+{
+  "metadata": {
+    "evaluation_name": "realism_check_and_graded_comfort_metric",
+    "description": "Realism calibration of the synthetic occupant-trajectory generator against real CASAS households; corrected/reproduced bootstrap CIs plus a formal power analysis on the n=3 energy-savings result; a graded (non-saturated) comfort proxy bypassing MissTime's reactive-fallback floor; and the full 3x4x2 ROC-AUC table with an omnibus paired significance test.",
+    "narrative_interpretation": "(1) Realism: synthetic topology closest to real CASAS behavior is 'house_5room_irregular' (z-distance to tulum = 1.82); farthest is 'studio_linear_regular' (z-distance to tulum = 4.13). (2) The n=3 cross-topology bootstrap CIs reproduce the original artifact's CIs (with some drift); power analysis shows the current n=3 design cannot detect anything smaller than MDE~155.9pp at FPR=0.05, and would need n~797 independent topology/household conditions to reliably detect a 5pp mean savings effect at 80% power -- the 'CI includes zero' result is better read as inconclusive/underpowered than as a confirmed null. (3) The graded comfort proxy, which bypasses PreHeat's reactive-fallback floor that saturates binary MissTime, finds a pooled integrated-temperature-deficit difference (transition-PreHeat) of -53184.0 degC*min (bootstrap 95% CI [-150880.4509169076, -3326.4720407114837], excludes zero) and a pooled realized-lead-time difference of -16.7 min (CI [-44.73960944441972, -2.00935221257151], excludes zero), directly probing whether the transition model's forecasting edge produces any real anticipatory comfort benefit invisible to MissTime. (4) The full 3-topology x 4-lookahead AUC table (12 cells) shows the transition predictor dominates PreHeat's ROC-AUC in 12/12 cells (mean gap +0.115, paired bootstrap 95% CI [0.10657802038797787, 0.12271695512745037], Wilcoxon one-sided p=2.44e-04), giving a single omnibus statistical statement for the prediction-stage dominance claim across every topology and lookahead, not just the 2-of-3 previously narrated. NOTE: the graded comfort proxy surfaces a mechanism previously invisible to MissTime -- at every matched-FPR operating point, method.py's own threshold_at_fpr() (reused verbatim, not re-derived) resolves the transition-predictor's crossing threshold to 1.0, so predicted_occupied is essentially never True for the transition model and its anticipatory-heating branch is almost never taken; heating for the transition condition in the original simulation is therefore driven almost entirely by the shared reactive-fallback rule, not by its (superior) forecasts. This is a plausible root cause for the disconnect between the strong AUC advantage and the null energy-savings result, and for the negative pooled comfort-proxy diffs above.",
+    "realism_check": {
+      "table": [
+        {
+          "row": "synthetic_studio_linear_regular",
+          "occupied_fraction": 0.24496527777777777,
+          "mean_dwell_min": 51.107871757871756,
+          "transition_entropy_bits": 1.0891160211733169,
+          "n_rooms": 3,
+          "n_days": 60
+        },
+        {
+          "row": "synthetic_apartment_star_mixed",
+          "occupied_fraction": 0.22348090277777777,
+          "mean_dwell_min": 48.78026149198024,
+          "transition_entropy_bits": 1.8378147055396534,
+          "n_rooms": 4,
+          "n_days": 60
+        },
+        {
+          "row": "synthetic_house_5room_irregular",
+          "occupied_fraction": 0.20819444444444443,
+          "mean_dwell_min": 46.230675574425575,
+          "transition_entropy_bits": 2.2470074484714546,
+          "n_rooms": 5,
+          "n_days": 60
+        },
+        {
+          "row": "CASAS_aruba",
+          "occupied_fraction": 0.17655364551710181,
+          "mean_dwell_min": 31.811235393210534,
+          "transition_entropy_bits": 1.3520021476614181,
+          "n_rooms": 31,
+          "n_days": 220
+        },
+        {
+          "row": "CASAS_cairo",
+          "occupied_fraction": 0.28059340118187787,
+          "mean_dwell_min": 44.079661627796895,
+          "transition_entropy_bits": 2.0829716335415784,
+          "n_rooms": 27,
+          "n_days": 57
+        },
+        {
+          "row": "CASAS_milan",
+          "occupied_fraction": 0.21063031021537246,
+          "mean_dwell_min": 31.713650496996465,
+          "transition_entropy_bits": 1.7374194157653713,
+          "n_rooms": 28,
+          "n_days": 65
+        },
+        {
+          "row": "CASAS_tulum",
+          "occupied_fraction": 0.17623452810727178,
+          "mean_dwell_min": 34.22236392466481,
+          "transition_entropy_bits": 2.293805858778501,
+          "n_rooms": 31,
+          "n_days": 235
+        }
+      ],
+      "synthetic_to_real_distance_matrix": [
+        {
+          "synthetic_topology": "studio_linear_regular",
+          "distances_to_house": {
+            "aruba": 3.2576018050265794,
+            "cairo": 2.7391223606093162,
+            "milan": 3.1156832904563707,
+            "tulum": 4.125021546006869
+          }
+        },
+        {
+          "synthetic_topology": "apartment_star_mixed",
+          "distances_to_house": {
+            "aruba": 2.8361499073512992,
+            "cairo": 1.8624842396167032,
+            "milan": 2.2577781735803595,
+            "tulum": 2.5750545854016265
+          }
+        },
+        {
+          "synthetic_topology": "house_5room_irregular",
+          "distances_to_house": {
+            "aruba": 2.980784655262526,
+            "cairo": 2.158644392501319,
+            "milan": 2.241196787320156,
+            "tulum": 1.8171029513887256
+          }
+        }
+      ],
+      "closest_synthetic_to_real_pair": {
+        "synthetic": "house_5room_irregular",
+        "real": "tulum",
+        "z_distance": 1.8171029513887256
+      },
+      "farthest_synthetic_to_real_pair": {
+        "synthetic": "studio_linear_regular",
+        "real": "tulum",
+        "z_distance": 4.125021546006869
+      }
+    },
+    "ci_power_analysis": {
+      "table": [
+        {
+          "target_fpr": 0.05,
+          "recomputed_bootstrap_ci95": [
+            -14.503166990016872,
+            74.7494835964212
+          ],
+          "original_bootstrap_ci95": [
+            -14.503166990016872,
+            46.426658217238106
+          ],
+          "ci_reproduces_within_mc_noise": false,
+          "mean_savings_pct": 16.67577468842542,
+          "observed_sd_pct": 50.33890431291785,
+          "n_topologies": 3,
+          "mde_n3_at_80pct_power_pp": 155.87492801626962,
+          "n_required_for_5pp_effect_at_80pct_power": 797.4850216440971,
+          "n_required_for_observed_magnitude_at_80pct_power": 73.4662784577993
+        },
+        {
+          "target_fpr": 0.1,
+          "recomputed_bootstrap_ci95": [
+            -3.360695287918288,
+            17.39844174199315
+          ],
+          "original_bootstrap_ci95": [
+            -3.360695287918288,
+            13.4893759553308
+          ],
+          "ci_reproduces_within_mc_noise": false,
+          "mean_savings_pct": 6.569663612026987,
+          "observed_sd_pct": 10.408689177380289,
+          "n_topologies": 3,
+          "mde_n3_at_80pct_power_pp": 32.23061165937072,
+          "n_required_for_5pp_effect_at_80pct_power": 35.98206411317187,
+          "n_required_for_observed_magnitude_at_80pct_power": 21.701071356018637
+        },
+        {
+          "target_fpr": 0.2,
+          "recomputed_bootstrap_ci95": [
+            -9.226443948931015,
+            18.35642613939022
+          ],
+          "original_bootstrap_ci95": [
+            -9.226443948931015,
+            18.35642613939022
+          ],
+          "ci_reproduces_within_mc_noise": true,
+          "mean_savings_pct": 3.0664669450622863,
+          "observed_sd_pct": 14.033545683939094,
+          "n_topologies": 3,
+          "mde_n3_at_80pct_power_pp": 43.455016614966176,
+          "n_required_for_5pp_effect_at_80pct_power": 63.777705331132445,
+          "n_required_for_observed_magnitude_at_80pct_power": 166.31696342374485
+        }
+      ],
+      "companion_larger_n_available": false,
+      "companion_note": "companion experiment not available at eval time -- reporting n=3 power analysis only"
+    },
+    "graded_comfort_proxy": {
+      "table": [
+        {
+          "predictor": "PreHeat",
+          "topology": "studio_linear_regular",
+          "target_fpr": 0.05,
+          "integrated_deficit_degc_min": 442082.31639464677,
+          "mean_lead_time_min": 128.3426966292135,
+          "median_lead_time_min": 90.0,
+          "anticipation_rate": 0.9775280898876404
+        },
+        {
+          "predictor": "transition-predictor",
+          "topology": "studio_linear_regular",
+          "target_fpr": 0.05,
+          "integrated_deficit_degc_min": 0.0,
+          "mean_lead_time_min": 0.0,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.0
+        },
+        {
+          "predictor": "PreHeat",
+          "topology": "studio_linear_regular",
+          "target_fpr": 0.1,
+          "integrated_deficit_degc_min": 7766.182450358482,
+          "mean_lead_time_min": 4.129213483146067,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.06554307116104868
+        },
+        {
+          "predictor": "transition-predictor",
+          "topology": "studio_linear_regular",
+          "target_fpr": 0.1,
+          "integrated_deficit_degc_min": 0.0,
+          "mean_lead_time_min": 0.0,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.0
+        },
+        {
+          "predictor": "PreHeat",
+          "topology": "studio_linear_regular",
+          "target_fpr": 0.2,
+          "integrated_deficit_degc_min": 8408.362281312797,
+          "mean_lead_time_min": 4.129213483146067,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.06554307116104868
+        },
+        {
+          "predictor": "transition-predictor",
+          "topology": "studio_linear_regular",
+          "target_fpr": 0.2,
+          "integrated_deficit_degc_min": 0.0,
+          "mean_lead_time_min": 0.0,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.0
+        },
+        {
+          "predictor": "PreHeat",
+          "topology": "apartment_star_mixed",
+          "target_fpr": 0.05,
+          "integrated_deficit_degc_min": 5960.796127362701,
+          "mean_lead_time_min": 3.656832298136646,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.040372670807453416
+        },
+        {
+          "predictor": "transition-predictor",
+          "topology": "apartment_star_mixed",
+          "target_fpr": 0.05,
+          "integrated_deficit_degc_min": 0.0,
+          "mean_lead_time_min": 0.0,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.0
+        },
+        {
+          "predictor": "PreHeat",
+          "topology": "apartment_star_mixed",
+          "target_fpr": 0.1,
+          "integrated_deficit_degc_min": 5586.944772999397,
+          "mean_lead_time_min": 3.656832298136646,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.040372670807453416
+        },
+        {
+          "predictor": "transition-predictor",
+          "topology": "apartment_star_mixed",
+          "target_fpr": 0.1,
+          "integrated_deficit_degc_min": 0.0,
+          "mean_lead_time_min": 0.0,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.0
+        },
+        {
+          "predictor": "PreHeat",
+          "topology": "apartment_star_mixed",
+          "target_fpr": 0.2,
+          "integrated_deficit_degc_min": 5632.780821032569,
+          "mean_lead_time_min": 3.656832298136646,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.040372670807453416
+        },
+        {
+          "predictor": "transition-predictor",
+          "topology": "apartment_star_mixed",
+          "target_fpr": 0.2,
+          "integrated_deficit_degc_min": 0.0,
+          "mean_lead_time_min": 0.0,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.0
+        },
+        {
+          "predictor": "PreHeat",
+          "topology": "house_5room_irregular",
+          "target_fpr": 0.05,
+          "integrated_deficit_degc_min": 1069.9774531960018,
+          "mean_lead_time_min": 1.0281517747858018,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.008567931456548347
+        },
+        {
+          "predictor": "transition-predictor",
+          "topology": "house_5room_irregular",
+          "target_fpr": 0.05,
+          "integrated_deficit_degc_min": 0.0,
+          "mean_lead_time_min": 0.0,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.0
+        },
+        {
+          "predictor": "PreHeat",
+          "topology": "house_5room_irregular",
+          "target_fpr": 0.1,
+          "integrated_deficit_degc_min": 1089.1021792781016,
+          "mean_lead_time_min": 1.0281517747858018,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.008567931456548347
+        },
+        {
+          "predictor": "transition-predictor",
+          "topology": "house_5room_irregular",
+          "target_fpr": 0.1,
+          "integrated_deficit_degc_min": 0.0,
+          "mean_lead_time_min": 0.0,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.0
+        },
+        {
+          "predictor": "PreHeat",
+          "topology": "house_5room_irregular",
+          "target_fpr": 0.2,
+          "integrated_deficit_degc_min": 1059.5099388870667,
+          "mean_lead_time_min": 1.0281517747858018,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.008567931456548347
+        },
+        {
+          "predictor": "transition-predictor",
+          "topology": "house_5room_irregular",
+          "target_fpr": 0.2,
+          "integrated_deficit_degc_min": 0.0,
+          "mean_lead_time_min": 0.0,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.0
+        }
+      ],
+      "paired_diffs_transition_minus_preheat": [
+        {
+          "topology": "studio_linear_regular",
+          "target_fpr": 0.05,
+          "deficit_diff_degc_min": -442082.31639464677,
+          "lead_time_diff_min": -128.3426966292135,
+          "anticipation_rate_diff": -0.9775280898876404
+        },
+        {
+          "topology": "studio_linear_regular",
+          "target_fpr": 0.1,
+          "deficit_diff_degc_min": -7766.182450358482,
+          "lead_time_diff_min": -4.129213483146067,
+          "anticipation_rate_diff": -0.06554307116104868
+        },
+        {
+          "topology": "studio_linear_regular",
+          "target_fpr": 0.2,
+          "deficit_diff_degc_min": -8408.362281312797,
+          "lead_time_diff_min": -4.129213483146067,
+          "anticipation_rate_diff": -0.06554307116104868
+        },
+        {
+          "topology": "apartment_star_mixed",
+          "target_fpr": 0.05,
+          "deficit_diff_degc_min": -5960.796127362701,
+          "lead_time_diff_min": -3.656832298136646,
+          "anticipation_rate_diff": -0.040372670807453416
+        },
+        {
+          "topology": "apartment_star_mixed",
+          "target_fpr": 0.1,
+          "deficit_diff_degc_min": -5586.944772999397,
+          "lead_time_diff_min": -3.656832298136646,
+          "anticipation_rate_diff": -0.040372670807453416
+        },
+        {
+          "topology": "apartment_star_mixed",
+          "target_fpr": 0.2,
+          "deficit_diff_degc_min": -5632.780821032569,
+          "lead_time_diff_min": -3.656832298136646,
+          "anticipation_rate_diff": -0.040372670807453416
+        },
+        {
+          "topology": "house_5room_irregular",
+          "target_fpr": 0.05,
+          "deficit_diff_degc_min": -1069.9774531960018,
+          "lead_time_diff_min": -1.0281517747858018,
+          "anticipation_rate_diff": -0.008567931456548347
+        },
+        {
+          "topology": "house_5room_irregular",
+          "target_fpr": 0.1,
+          "deficit_diff_degc_min": -1089.1021792781016,
+          "lead_time_diff_min": -1.0281517747858018,
+          "anticipation_rate_diff": -0.008567931456548347
+        },
+        {
+          "topology": "house_5room_irregular",
+          "target_fpr": 0.2,
+          "deficit_diff_degc_min": -1059.5099388870667,
+          "lead_time_diff_min": -1.0281517747858018,
+          "anticipation_rate_diff": -0.008567931456548347
+        }
+      ],
+      "pooled_deficit_diff_mean": -53183.996935452655,
+      "pooled_deficit_diff_bootstrap_ci95": [
+        -150880.4509169076,
+        -3326.4720407114837
+      ],
+      "pooled_deficit_diff_excludes_zero": true,
+      "pooled_lead_time_diff_mean": -16.739563979363666,
+      "pooled_lead_time_diff_bootstrap_ci95": [
+        -44.73960944441972,
+        -2.00935221257151
+      ],
+      "pooled_lead_time_diff_excludes_zero": true
+    },
+    "full_auc_table": {
+      "table": [
+        {
+          "topology": "studio_linear_regular",
+          "lookahead_min": 15,
+          "auc_preheat_baseline": 0.7527520096469926,
+          "auc_preheat_baseline_stored": 0.7527520096469926,
+          "auc_transition_predictor": 0.859693572851457,
+          "auc_transition_predictor_stored": 0.859693572851457,
+          "auc_gap_transition_minus_preheat": 0.10694156320446435,
+          "transition_dominates": true
+        },
+        {
+          "topology": "studio_linear_regular",
+          "lookahead_min": 30,
+          "auc_preheat_baseline": 0.7466878128725649,
+          "auc_preheat_baseline_stored": 0.7466878128725649,
+          "auc_transition_predictor": 0.8475637975894869,
+          "auc_transition_predictor_stored": 0.8475637975894869,
+          "auc_gap_transition_minus_preheat": 0.10087598471692194,
+          "transition_dominates": true
+        },
+        {
+          "topology": "studio_linear_regular",
+          "lookahead_min": 45,
+          "auc_preheat_baseline": 0.7405744851902745,
+          "auc_preheat_baseline_stored": 0.7405744851902745,
+          "auc_transition_predictor": 0.8331357470704988,
+          "auc_transition_predictor_stored": 0.8331357470704988,
+          "auc_gap_transition_minus_preheat": 0.09256126188022429,
+          "transition_dominates": true
+        },
+        {
+          "topology": "studio_linear_regular",
+          "lookahead_min": 60,
+          "auc_preheat_baseline": 0.732755592460573,
+          "auc_preheat_baseline_stored": 0.732755592460573,
+          "auc_transition_predictor": 0.8172143426760836,
+          "auc_transition_predictor_stored": 0.8172143426760836,
+          "auc_gap_transition_minus_preheat": 0.08445875021551064,
+          "transition_dominates": true
+        },
+        {
+          "topology": "apartment_star_mixed",
+          "lookahead_min": 15,
+          "auc_preheat_baseline": 0.6930284801598566,
+          "auc_preheat_baseline_stored": 0.6930284801598566,
+          "auc_transition_predictor": 0.8133037417519879,
+          "auc_transition_predictor_stored": 0.8133037417519879,
+          "auc_gap_transition_minus_preheat": 0.12027526159213131,
+          "transition_dominates": true
+        },
+        {
+          "topology": "apartment_star_mixed",
+          "lookahead_min": 30,
+          "auc_preheat_baseline": 0.674403072891971,
+          "auc_preheat_baseline_stored": 0.674403072891971,
+          "auc_transition_predictor": 0.7965643737899083,
+          "auc_transition_predictor_stored": 0.7965643737899083,
+          "auc_gap_transition_minus_preheat": 0.12216130089793731,
+          "transition_dominates": true
+        },
+        {
+          "topology": "apartment_star_mixed",
+          "lookahead_min": 45,
+          "auc_preheat_baseline": 0.6565982450183441,
+          "auc_preheat_baseline_stored": 0.6565982450183441,
+          "auc_transition_predictor": 0.7884188077665449,
+          "auc_transition_predictor_stored": 0.7884188077665449,
+          "auc_gap_transition_minus_preheat": 0.13182056274820086,
+          "transition_dominates": true
+        },
+        {
+          "topology": "apartment_star_mixed",
+          "lookahead_min": 60,
+          "auc_preheat_baseline": 0.6494810417610589,
+          "auc_preheat_baseline_stored": 0.6494810417610589,
+          "auc_transition_predictor": 0.7767268409142076,
+          "auc_transition_predictor_stored": 0.7767268409142076,
+          "auc_gap_transition_minus_preheat": 0.1272457991531487,
+          "transition_dominates": true
+        },
+        {
+          "topology": "house_5room_irregular",
+          "lookahead_min": 15,
+          "auc_preheat_baseline": 0.700269861198298,
+          "auc_preheat_baseline_stored": 0.700269861198298,
+          "auc_transition_predictor": 0.8242482155727604,
+          "auc_transition_predictor_stored": 0.8242482155727604,
+          "auc_gap_transition_minus_preheat": 0.12397835437446236,
+          "transition_dominates": true
+        },
+        {
+          "topology": "house_5room_irregular",
+          "lookahead_min": 30,
+          "auc_preheat_baseline": 0.6854393299723228,
+          "auc_preheat_baseline_stored": 0.6854393299723228,
+          "auc_transition_predictor": 0.8087369627068417,
+          "auc_transition_predictor_stored": 0.8087369627068417,
+          "auc_gap_transition_minus_preheat": 0.12329763273451888,
+          "transition_dominates": true
+        },
+        {
+          "topology": "house_5room_irregular",
+          "lookahead_min": 45,
+          "auc_preheat_baseline": 0.6701521023460459,
+          "auc_preheat_baseline_stored": 0.6701521023460459,
+          "auc_transition_predictor": 0.7960871009040019,
+          "auc_transition_predictor_stored": 0.7960871009040019,
+          "auc_gap_transition_minus_preheat": 0.12593499855795598,
+          "transition_dominates": true
+        },
+        {
+          "topology": "house_5room_irregular",
+          "lookahead_min": 60,
+          "auc_preheat_baseline": 0.662503712972126,
+          "auc_preheat_baseline_stored": 0.662503712972126,
+          "auc_transition_predictor": 0.7812264169413574,
+          "auc_transition_predictor_stored": 0.7812264169413574,
+          "auc_gap_transition_minus_preheat": 0.11872270396923146,
+          "transition_dominates": true
+        }
+      ],
+      "n_cells": 12,
+      "n_cells_transition_dominates": 12,
+      "mean_auc_gap": 0.11485618117039231,
+      "paired_bootstrap_ci95_gap": [
+        0.10657802038797787,
+        0.12271695512745037
+      ],
+      "gap_excludes_zero": true,
+      "wilcoxon_signed_rank_statistic": 78.0,
+      "wilcoxon_p_value_one_sided_greater": 0.000244140625,
+      "omnibus_dominance_confirmed_all_cells": true
+    }
+  },
+  "metrics_agg": {
+    "n_synthetic_topologies": 3,
+    "n_casas_houses": 4,
+    "closest_synth_real_z_distance": 1.8171029513887256,
+    "farthest_synth_real_z_distance": 4.125021546006869,
+    "energy_savings_fpr05_recomputed_ci_lo": -14.503166990016872,
+    "energy_savings_fpr05_recomputed_ci_hi": 74.7494835964212,
+    "energy_savings_n_required_for_5pp_effect_fpr05": 797.4850216440971,
+    "comfort_deficit_pooled_diff_mean_degc_min": -53183.996935452655,
+    "comfort_deficit_pooled_diff_excludes_zero": 1.0,
+    "comfort_lead_time_pooled_diff_mean_min": -16.739563979363666,
+    "comfort_lead_time_pooled_diff_excludes_zero": 1.0,
+    "auc_n_cells": 12,
+    "auc_n_cells_transition_dominates": 12,
+    "auc_mean_gap": 0.11485618117039231,
+    "auc_gap_wilcoxon_p_value": 0.000244140625,
+    "auc_omnibus_dominance_confirmed": 1.0
+  },
+  "datasets": [
+    {
+      "dataset": "gen_art_evaluation_1_reanalysis",
+      "examples": [
+        {
+          "input": "Realism check row: synthetic_studio_linear_regular",
+          "output": "{\"row\": \"synthetic_studio_linear_regular\", \"occupied_fraction\": 0.24496527777777777, \"mean_dwell_min\": 51.107871757871756, \"transition_entropy_bits\": 1.0891160211733169, \"n_rooms\": 3, \"n_days\": 60}",
+          "metadata_family": "realism_calibration",
+          "eval_occupied_fraction": 0.24496527777777777,
+          "eval_mean_dwell_min": 51.107871757871756,
+          "eval_transition_entropy_bits": 1.0891160211733169
+        },
+        {
+          "input": "Realism check row: synthetic_apartment_star_mixed",
+          "output": "{\"row\": \"synthetic_apartment_star_mixed\", \"occupied_fraction\": 0.22348090277777777, \"mean_dwell_min\": 48.78026149198024, \"transition_entropy_bits\": 1.8378147055396534, \"n_rooms\": 4, \"n_days\": 60}",
+          "metadata_family": "realism_calibration",
+          "eval_occupied_fraction": 0.22348090277777777,
+          "eval_mean_dwell_min": 48.78026149198024,
+          "eval_transition_entropy_bits": 1.8378147055396534
+        },
+        {
+          "input": "Realism check row: synthetic_house_5room_irregular",
+          "output": "{\"row\": \"synthetic_house_5room_irregular\", \"occupied_fraction\": 0.20819444444444443, \"mean_dwell_min\": 46.230675574425575, \"transition_entropy_bits\": 2.2470074484714546, \"n_rooms\": 5, \"n_days\": 60}",
+          "metadata_family": "realism_calibration",
+          "eval_occupied_fraction": 0.20819444444444443,
+          "eval_mean_dwell_min": 46.230675574425575,
+          "eval_transition_entropy_bits": 2.2470074484714546
+        }
+      ]
+    }
+  ]
+}

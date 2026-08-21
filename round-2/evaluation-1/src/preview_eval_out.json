@@ -1,0 +1,294 @@
+{
+  "metadata": {
+    "evaluation_name": "realism_check_and_graded_comfort_metric",
+    "description": "Realism calibration of the synthetic occupant-trajectory generator against real CASAS households; corrected/reproduced bootstrap CIs plus a formal power analysis on the n=3 energy-savings result; a gr...",
+    "narrative_interpretation": "(1) Realism: synthetic topology closest to real CASAS behavior is 'house_5room_irregular' (z-distance to tulum = 1.82); farthest is 'studio_linear_regular' (z-distance to tulum = 4.13). (2) The n=3 cr...",
+    "realism_check": {
+      "table": [
+        {
+          "row": "synthetic_studio_linear_regular",
+          "occupied_fraction": 0.24496527777777777,
+          "mean_dwell_min": 51.107871757871756,
+          "transition_entropy_bits": 1.0891160211733169,
+          "n_rooms": 3,
+          "n_days": 60
+        },
+        {
+          "row": "synthetic_apartment_star_mixed",
+          "occupied_fraction": 0.22348090277777777,
+          "mean_dwell_min": 48.78026149198024,
+          "transition_entropy_bits": 1.8378147055396534,
+          "n_rooms": 4,
+          "n_days": 60
+        },
+        {
+          "row": "synthetic_house_5room_irregular",
+          "occupied_fraction": 0.20819444444444443,
+          "mean_dwell_min": 46.230675574425575,
+          "transition_entropy_bits": 2.2470074484714546,
+          "n_rooms": 5,
+          "n_days": 60
+        }
+      ],
+      "synthetic_to_real_distance_matrix": [
+        {
+          "synthetic_topology": "studio_linear_regular",
+          "distances_to_house": {
+            "aruba": 3.2576018050265794,
+            "cairo": 2.7391223606093162,
+            "milan": 3.1156832904563707,
+            "tulum": 4.125021546006869
+          }
+        },
+        {
+          "synthetic_topology": "apartment_star_mixed",
+          "distances_to_house": {
+            "aruba": 2.8361499073512992,
+            "cairo": 1.8624842396167032,
+            "milan": 2.2577781735803595,
+            "tulum": 2.5750545854016265
+          }
+        },
+        {
+          "synthetic_topology": "house_5room_irregular",
+          "distances_to_house": {
+            "aruba": 2.980784655262526,
+            "cairo": 2.158644392501319,
+            "milan": 2.241196787320156,
+            "tulum": 1.8171029513887256
+          }
+        }
+      ],
+      "closest_synthetic_to_real_pair": {
+        "synthetic": "house_5room_irregular",
+        "real": "tulum",
+        "z_distance": 1.8171029513887256
+      },
+      "farthest_synthetic_to_real_pair": {
+        "synthetic": "studio_linear_regular",
+        "real": "tulum",
+        "z_distance": 4.125021546006869
+      }
+    },
+    "ci_power_analysis": {
+      "table": [
+        {
+          "target_fpr": 0.05,
+          "recomputed_bootstrap_ci95": [
+            -14.503166990016872,
+            74.7494835964212
+          ],
+          "original_bootstrap_ci95": [
+            -14.503166990016872,
+            46.426658217238106
+          ],
+          "ci_reproduces_within_mc_noise": false,
+          "mean_savings_pct": 16.67577468842542,
+          "observed_sd_pct": 50.33890431291785,
+          "n_topologies": 3,
+          "mde_n3_at_80pct_power_pp": 155.87492801626962,
+          "n_required_for_5pp_effect_at_80pct_power": 797.4850216440971,
+          "n_required_for_observed_magnitude_at_80pct_power": 73.4662784577993
+        },
+        {
+          "target_fpr": 0.1,
+          "recomputed_bootstrap_ci95": [
+            -3.360695287918288,
+            17.39844174199315
+          ],
+          "original_bootstrap_ci95": [
+            -3.360695287918288,
+            13.4893759553308
+          ],
+          "ci_reproduces_within_mc_noise": false,
+          "mean_savings_pct": 6.569663612026987,
+          "observed_sd_pct": 10.408689177380289,
+          "n_topologies": 3,
+          "mde_n3_at_80pct_power_pp": 32.23061165937072,
+          "n_required_for_5pp_effect_at_80pct_power": 35.98206411317187,
+          "n_required_for_observed_magnitude_at_80pct_power": 21.701071356018637
+        },
+        {
+          "target_fpr": 0.2,
+          "recomputed_bootstrap_ci95": [
+            -9.226443948931015,
+            18.35642613939022
+          ],
+          "original_bootstrap_ci95": [
+            -9.226443948931015,
+            18.35642613939022
+          ],
+          "ci_reproduces_within_mc_noise": true,
+          "mean_savings_pct": 3.0664669450622863,
+          "observed_sd_pct": 14.033545683939094,
+          "n_topologies": 3,
+          "mde_n3_at_80pct_power_pp": 43.455016614966176,
+          "n_required_for_5pp_effect_at_80pct_power": 63.777705331132445,
+          "n_required_for_observed_magnitude_at_80pct_power": 166.31696342374485
+        }
+      ],
+      "companion_larger_n_available": false,
+      "companion_note": "companion experiment not available at eval time -- reporting n=3 power analysis only"
+    },
+    "graded_comfort_proxy": {
+      "table": [
+        {
+          "predictor": "PreHeat",
+          "topology": "studio_linear_regular",
+          "target_fpr": 0.05,
+          "integrated_deficit_degc_min": 442082.31639464677,
+          "mean_lead_time_min": 128.3426966292135,
+          "median_lead_time_min": 90.0,
+          "anticipation_rate": 0.9775280898876404
+        },
+        {
+          "predictor": "transition-predictor",
+          "topology": "studio_linear_regular",
+          "target_fpr": 0.05,
+          "integrated_deficit_degc_min": 0.0,
+          "mean_lead_time_min": 0.0,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.0
+        },
+        {
+          "predictor": "PreHeat",
+          "topology": "studio_linear_regular",
+          "target_fpr": 0.1,
+          "integrated_deficit_degc_min": 7766.182450358482,
+          "mean_lead_time_min": 4.129213483146067,
+          "median_lead_time_min": 0.0,
+          "anticipation_rate": 0.06554307116104868
+        }
+      ],
+      "paired_diffs_transition_minus_preheat": [
+        {
+          "topology": "studio_linear_regular",
+          "target_fpr": 0.05,
+          "deficit_diff_degc_min": -442082.31639464677,
+          "lead_time_diff_min": -128.3426966292135,
+          "anticipation_rate_diff": -0.9775280898876404
+        },
+        {
+          "topology": "studio_linear_regular",
+          "target_fpr": 0.1,
+          "deficit_diff_degc_min": -7766.182450358482,
+          "lead_time_diff_min": -4.129213483146067,
+          "anticipation_rate_diff": -0.06554307116104868
+        },
+        {
+          "topology": "studio_linear_regular",
+          "target_fpr": 0.2,
+          "deficit_diff_degc_min": -8408.362281312797,
+          "lead_time_diff_min": -4.129213483146067,
+          "anticipation_rate_diff": -0.06554307116104868
+        }
+      ],
+      "pooled_deficit_diff_mean": -53183.996935452655,
+      "pooled_deficit_diff_bootstrap_ci95": [
+        -150880.4509169076,
+        -3326.4720407114837
+      ],
+      "pooled_deficit_diff_excludes_zero": true,
+      "pooled_lead_time_diff_mean": -16.739563979363666,
+      "pooled_lead_time_diff_bootstrap_ci95": [
+        -44.73960944441972,
+        -2.00935221257151
+      ],
+      "pooled_lead_time_diff_excludes_zero": true
+    },
+    "full_auc_table": {
+      "table": [
+        {
+          "topology": "studio_linear_regular",
+          "lookahead_min": 15,
+          "auc_preheat_baseline": 0.7527520096469926,
+          "auc_preheat_baseline_stored": 0.7527520096469926,
+          "auc_transition_predictor": 0.859693572851457,
+          "auc_transition_predictor_stored": 0.859693572851457,
+          "auc_gap_transition_minus_preheat": 0.10694156320446435,
+          "transition_dominates": true
+        },
+        {
+          "topology": "studio_linear_regular",
+          "lookahead_min": 30,
+          "auc_preheat_baseline": 0.7466878128725649,
+          "auc_preheat_baseline_stored": 0.7466878128725649,
+          "auc_transition_predictor": 0.8475637975894869,
+          "auc_transition_predictor_stored": 0.8475637975894869,
+          "auc_gap_transition_minus_preheat": 0.10087598471692194,
+          "transition_dominates": true
+        },
+        {
+          "topology": "studio_linear_regular",
+          "lookahead_min": 45,
+          "auc_preheat_baseline": 0.7405744851902745,
+          "auc_preheat_baseline_stored": 0.7405744851902745,
+          "auc_transition_predictor": 0.8331357470704988,
+          "auc_transition_predictor_stored": 0.8331357470704988,
+          "auc_gap_transition_minus_preheat": 0.09256126188022429,
+          "transition_dominates": true
+        }
+      ],
+      "n_cells": 12,
+      "n_cells_transition_dominates": 12,
+      "mean_auc_gap": 0.11485618117039231,
+      "paired_bootstrap_ci95_gap": [
+        0.10657802038797787,
+        0.12271695512745037
+      ],
+      "gap_excludes_zero": true,
+      "wilcoxon_signed_rank_statistic": 78.0,
+      "wilcoxon_p_value_one_sided_greater": 0.000244140625,
+      "omnibus_dominance_confirmed_all_cells": true
+    }
+  },
+  "metrics_agg": {
+    "n_synthetic_topologies": 3,
+    "n_casas_houses": 4,
+    "closest_synth_real_z_distance": 1.8171029513887256,
+    "farthest_synth_real_z_distance": 4.125021546006869,
+    "energy_savings_fpr05_recomputed_ci_lo": -14.503166990016872,
+    "energy_savings_fpr05_recomputed_ci_hi": 74.7494835964212,
+    "energy_savings_n_required_for_5pp_effect_fpr05": 797.4850216440971,
+    "comfort_deficit_pooled_diff_mean_degc_min": -53183.996935452655,
+    "comfort_deficit_pooled_diff_excludes_zero": 1.0,
+    "comfort_lead_time_pooled_diff_mean_min": -16.739563979363666,
+    "comfort_lead_time_pooled_diff_excludes_zero": 1.0,
+    "auc_n_cells": 12,
+    "auc_n_cells_transition_dominates": 12,
+    "auc_mean_gap": 0.11485618117039231,
+    "auc_gap_wilcoxon_p_value": 0.000244140625,
+    "auc_omnibus_dominance_confirmed": 1.0
+  },
+  "datasets": [
+    {
+      "dataset": "gen_art_evaluation_1_reanalysis",
+      "examples": [
+        {
+          "input": "Realism check row: synthetic_studio_linear_regular",
+          "output": "{\"row\": \"synthetic_studio_linear_regular\", \"occupied_fraction\": 0.24496527777777777, \"mean_dwell_min\": 51.107871757871756, \"transition_entropy_bits\": 1.0891160211733169, \"n_rooms\": 3, \"n_days\": 60}",
+          "metadata_family": "realism_calibration",
+          "eval_occupied_fraction": 0.24496527777777777,
+          "eval_mean_dwell_min": 51.107871757871756,
+          "eval_transition_entropy_bits": 1.0891160211733169
+        },
+        {
+          "input": "Realism check row: synthetic_apartment_star_mixed",
+          "output": "{\"row\": \"synthetic_apartment_star_mixed\", \"occupied_fraction\": 0.22348090277777777, \"mean_dwell_min\": 48.78026149198024, \"transition_entropy_bits\": 1.8378147055396534, \"n_rooms\": 4, \"n_days\": 60}",
+          "metadata_family": "realism_calibration",
+          "eval_occupied_fraction": 0.22348090277777777,
+          "eval_mean_dwell_min": 48.78026149198024,
+          "eval_transition_entropy_bits": 1.8378147055396534
+        },
+        {
+          "input": "Realism check row: synthetic_house_5room_irregular",
+          "output": "{\"row\": \"synthetic_house_5room_irregular\", \"occupied_fraction\": 0.20819444444444443, \"mean_dwell_min\": 46.230675574425575, \"transition_entropy_bits\": 2.2470074484714546, \"n_rooms\": 5, \"n_days\": 60}",
+          "metadata_family": "realism_calibration",
+          "eval_occupied_fraction": 0.20819444444444443,
+          "eval_mean_dwell_min": 46.230675574425575,
+          "eval_transition_entropy_bits": 2.2470074484714546
+        }
+      ]
+    }
+  ]
+}
