@@ -1,0 +1,791 @@
+{
+  "metadata": {
+    "method_name": "room_transition_vs_preheat_thermal_sim",
+    "description": "Room-transition (order-1/2 Markov) occupancy predictor vs PreHeat K=5 Hamming baseline, both driven through a shared RC-network thermal simulator with anticipatory HeatRate heating; compared at matche...",
+    "data_source": "synthetic (fallback_plan item 1: no DATASET dependency with room-level adjacency/timestamps available)",
+    "lookaheads_min": [
+      15,
+      30,
+      45
+    ],
+    "fpr_targets": [
+      0.05,
+      0.1,
+      0.2
+    ],
+    "target_temp_c": 20.0,
+    "miss_tolerance_c": 1.0,
+    "n_bootstrap": 500,
+    "verdict": "DISCONFIRMED_TRANSLATION_STAGE",
+    "aggregate_by_fpr": [
+      {
+        "target_fpr": 0.05,
+        "per_topology_savings_pct": [
+          74.7494835964212,
+          -14.503166990016872,
+          -10.218992541128069
+        ],
+        "mean_savings_pct": 16.67577468842542,
+        "bootstrap_ci95": [
+          -14.503166990016872,
+          46.426658217238106
+        ],
+        "ci_excludes_zero": false,
+        "mean_miss_time_delta_min": 0.0,
+        "miss_time_noninferior": true
+      },
+      {
+        "target_fpr": 0.1,
+        "per_topology_savings_pct": [
+          17.39844174199315,
+          -3.360695287918288,
+          5.6712443820061
+        ],
+        "mean_savings_pct": 6.569663612026987,
+        "bootstrap_ci95": [
+          -3.360695287918288,
+          13.4893759553308
+        ],
+        "ci_excludes_zero": false,
+        "mean_miss_time_delta_min": 0.0,
+        "miss_time_noninferior": true
+      },
+      {
+        "target_fpr": 0.2,
+        "per_topology_savings_pct": [
+          0.06941864472765491,
+          18.35642613939022,
+          -9.226443948931015
+        ],
+        "mean_savings_pct": 3.0664669450622863,
+        "bootstrap_ci95": [
+          -9.226443948931015,
+          18.35642613939022
+        ],
+        "ci_excludes_zero": false,
+        "mean_miss_time_delta_min": 0.0,
+        "miss_time_noninferior": true
+      }
+    ],
+    "per_topology_results": [
+      {
+        "topology": "studio_linear_regular",
+        "n_rooms": 3,
+        "n_train_days": 36,
+        "n_test_days": 24,
+        "regularity": 0.85,
+        "iid_selftest_row_std": 0.022897627944211615,
+        "roc_by_lookahead": {
+          "15": {
+            "baseline": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.7971181556195965,
+                0.7971181556195965
+              ],
+              "fpr": [
+                1.0,
+                0.4810252334591695,
+                0.4810252334591695
+              ],
+              "auc": 0.7527520096469926
+            },
+            "transition": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.8806916426512968,
+                0.822478386167147
+              ],
+              "fpr": [
+                1.0,
+                0.4738724418835685,
+                0.29584740711305385
+              ],
+              "auc": 0.859693572851457
+            }
+          },
+          "30": {
+            "baseline": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.80034924330617,
+                0.80034924330617
+              ],
+              "fpr": [
+                1.0,
+                0.49477701888308556,
+                0.49477701888308556
+              ],
+              "auc": 0.7466878128725649
+            },
+            "transition": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.9185098952270081,
+                0.8742724097788126
+              ],
+              "fpr": [
+                1.0,
+                0.6386098834873443,
+                0.4855363599839293
+              ],
+              "auc": 0.8475637975894869
+            }
+          },
+          "45": {
+            "baseline": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.8051643192488263,
+                0.8051643192488263
+              ],
+              "fpr": [
+                1.0,
+                0.5028455284552845,
+                0.5028455284552845
+              ],
+              "auc": 0.7405744851902745
+            },
+            "transition": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.9336854460093896,
+                0.9107981220657277
+              ],
+              "fpr": [
+                1.0,
+                0.7132113821138212,
+                0.6398373983739838
+              ],
+              "auc": 0.8331357470704988
+            }
+          },
+          "60": {
+            "baseline": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.8097213989330172,
+                0.8097213989330172
+              ],
+              "fpr": [
+                1.0,
+                0.528879753340185,
+                0.528879753340185
+              ],
+              "auc": 0.732755592460573
+            },
+            "transition": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.9579134558387671,
+                0.9276822762299941
+              ],
+              "fpr": [
+                1.0,
+                0.8573484069886947,
+                0.7136690647482015
+              ],
+              "auc": 0.8172143426760836
+            }
+          }
+        },
+        "fpr_matched_results": [
+          {
+            "target_fpr": 0.05,
+            "baseline_threshold": 0.0,
+            "transition_threshold": 1.0,
+            "preheat": {
+              "gas_proxy_wh": 2855461.5010744487,
+              "miss_time_min": 26490.0
+            },
+            "transition": {
+              "gas_proxy_wh": 721018.7747266807,
+              "miss_time_min": 26490.0
+            },
+            "scheduled": {
+              "gas_proxy_wh": 2251477.2553391466,
+              "miss_time_min": 26490.0
+            },
+            "reactive": {
+              "gas_proxy_wh": 784396.1582922746,
+              "miss_time_min": 26490.0
+            }
+          },
+          {
+            "target_fpr": 0.1,
+            "baseline_threshold": 1.0,
+            "transition_threshold": 1.0,
+            "preheat": {
+              "gas_proxy_wh": 811440.2927610207,
+              "miss_time_min": 26490.0
+            },
+            "transition": {
+              "gas_proxy_wh": 670262.3261539359,
+              "miss_time_min": 26490.0
+            },
+            "scheduled": {
+              "gas_proxy_wh": 2166031.0699936356,
+              "miss_time_min": 26490.0
+            },
+            "reactive": {
+              "gas_proxy_wh": 687516.5041555793,
+              "miss_time_min": 26490.0
+            }
+          },
+          {
+            "target_fpr": 0.2,
+            "baseline_threshold": 1.0,
+            "transition_threshold": 1.0,
+            "preheat": {
+              "gas_proxy_wh": 817378.2540098026,
+              "miss_time_min": 26490.0
+            },
+            "transition": {
+              "gas_proxy_wh": 816810.8411035704,
+              "miss_time_min": 26490.0
+            },
+            "scheduled": {
+              "gas_proxy_wh": 2010002.6910428177,
+              "miss_time_min": 26490.0
+            },
+            "reactive": {
+              "gas_proxy_wh": 726270.900725089,
+              "miss_time_min": 26490.0
+            }
+          }
+        ],
+        "sim_lookahead_min": 15
+      },
+      {
+        "topology": "apartment_star_mixed",
+        "n_rooms": 4,
+        "n_train_days": 36,
+        "n_test_days": 24,
+        "regularity": 0.55,
+        "iid_selftest_row_std": 0.014675006559682319,
+        "roc_by_lookahead": {
+          "15": {
+            "baseline": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.708991825613079,
+                0.708991825613079
+              ],
+              "fpr": [
+                1.0,
+                0.4474892196411184,
+                0.4474892196411184
+              ],
+              "auc": 0.6930284801598566
+            },
+            "transition": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.8474114441416893,
+                0.7100817438692099
+              ],
+              "fpr": [
+                1.0,
+                0.5486159410210043,
+                0.20364445680901377
+              ],
+              "auc": 0.8133037417519879
+            }
+          },
+          "30": {
+            "baseline": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.7044956140350878,
+                0.7044956140350878
+              ],
+              "fpr": [
+                1.0,
+                0.47761824324324326,
+                0.47761824324324326
+              ],
+              "auc": 0.674403072891971
+            },
+            "transition": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.8887061403508771,
+                0.8475877192982456
+              ],
+              "fpr": [
+                1.0,
+                0.6997466216216216,
+                0.5612331081081081
+              ],
+              "auc": 0.7965643737899083
+            }
+          },
+          "45": {
+            "baseline": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.6985619469026548,
+                0.6985619469026548
+              ],
+              "fpr": [
+                1.0,
+                0.5012813211845103,
+                0.5012813211845103
+              ],
+              "auc": 0.6565982450183441
+            },
+            "transition": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.9988938053097345,
+                0.8611725663716814
+              ],
+              "fpr": [
+                1.0,
+                0.9985763097949886,
+                0.609624145785877
+              ],
+              "auc": 0.7884188077665449
+            }
+          },
+          "60": {
+            "baseline": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.7069637883008356,
+                0.7069637883008356
+              ],
+              "fpr": [
+                1.0,
+                0.5182250396196514,
+                0.5182250396196514
+              ],
+              "auc": 0.6494810417610589
+            },
+            "transition": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                1.0,
+                0.8846796657381616
+              ],
+              "fpr": [
+                1.0,
+                1.0,
+                0.7068145800316957
+              ],
+              "auc": 0.7767268409142076
+            }
+          }
+        },
+        "fpr_matched_results": [
+          {
+            "target_fpr": 0.05,
+            "baseline_threshold": 1.0,
+            "transition_threshold": 1.0,
+            "preheat": {
+              "gas_proxy_wh": 710572.0600190887,
+              "miss_time_min": 27870.0
+            },
+            "transition": {
+              "gas_proxy_wh": 813627.51246806,
+              "miss_time_min": 27870.0
+            },
+            "scheduled": {
+              "gas_proxy_wh": 2626503.73365593,
+              "miss_time_min": 27870.0
+            },
+            "reactive": {
+              "gas_proxy_wh": 671619.3922001391,
+              "miss_time_min": 27870.0
+            }
+          },
+          {
+            "target_fpr": 0.1,
+            "baseline_threshold": 1.0,
+            "transition_threshold": 1.0,
+            "preheat": {
+              "gas_proxy_wh": 708306.5637366232,
+              "miss_time_min": 27870.0
+            },
+            "transition": {
+              "gas_proxy_wh": 732110.5890481358,
+              "miss_time_min": 27870.0
+            },
+            "scheduled": {
+              "gas_proxy_wh": 2624727.036836857,
+              "miss_time_min": 27870.0
+            },
+            "reactive": {
+              "gas_proxy_wh": 672912.8321518413,
+              "miss_time_min": 27870.0
+            }
+          },
+          {
+            "target_fpr": 0.2,
+            "baseline_threshold": 1.0,
+            "transition_threshold": 1.0,
+            "preheat": {
+              "gas_proxy_wh": 763351.6062432582,
+              "miss_time_min": 27870.0
+            },
+            "transition": {
+              "gas_proxy_wh": 623227.5324593657,
+              "miss_time_min": 27870.0
+            },
+            "scheduled": {
+              "gas_proxy_wh": 2481538.8619454387,
+              "miss_time_min": 27870.0
+            },
+            "reactive": {
+              "gas_proxy_wh": 715063.9077687536,
+              "miss_time_min": 27870.0
+            }
+          }
+        ],
+        "sim_lookahead_min": 15
+      },
+      {
+        "topology": "house_5room_irregular",
+        "n_rooms": 5,
+        "n_train_days": 36,
+        "n_test_days": 24,
+        "regularity": 0.25,
+        "iid_selftest_row_std": 0.014731277321861568,
+        "roc_by_lookahead": {
+          "15": {
+            "baseline": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.7065843621399177,
+                0.7065843621399177
+              ],
+              "fpr": [
+                1.0,
+                0.4247457627118644,
+                0.4247457627118644
+              ],
+              "auc": 0.700269861198298
+            },
+            "transition": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.811522633744856,
+                0.7004115226337448
+              ],
+              "fpr": [
+                1.0,
+                0.40915254237288134,
+                0.132090395480226
+              ],
+              "auc": 0.8242482155727604
+            }
+          },
+          "30": {
+            "baseline": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.7065172270651723,
+                0.7065172270651723
+              ],
+              "fpr": [
+                1.0,
+                0.4463489886870072,
+                0.4463489886870072
+              ],
+              "auc": 0.6854393299723228
+            },
+            "transition": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.9227895392278954,
+                0.8073889580738896
+              ],
+              "fpr": [
+                1.0,
+                0.7793395040566793,
+                0.4304650897040338
+              ],
+              "auc": 0.8087369627068417
+            }
+          },
+          "45": {
+            "baseline": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.7012987012987013,
+                0.7012987012987013
+              ],
+              "fpr": [
+                1.0,
+                0.4634230902577141,
+                0.4634230902577141
+              ],
+              "auc": 0.6701521023460459
+            },
+            "transition": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.9769585253456221,
+                0.8806032677000419
+              ],
+              "fpr": [
+                1.0,
+                0.93378019184098,
+                0.6812666127354675
+              ],
+              "auc": 0.7960871009040019
+            }
+          },
+          "60": {
+            "baseline": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.700507614213198,
+                0.700507614213198
+              ],
+              "fpr": [
+                1.0,
+                0.472533894343151,
+                0.472533894343151
+              ],
+              "auc": 0.662503712972126
+            },
+            "transition": {
+              "thresholds": [
+                0.0,
+                0.01,
+                0.02
+              ],
+              "tpr": [
+                1.0,
+                0.9860406091370558,
+                0.9196277495769881
+              ],
+              "fpr": [
+                1.0,
+                0.9582748948106592,
+                0.8044647031323048
+              ],
+              "auc": 0.7812264169413574
+            }
+          }
+        },
+        "fpr_matched_results": [
+          {
+            "target_fpr": 0.05,
+            "baseline_threshold": 1.0,
+            "transition_threshold": 1.0,
+            "preheat": {
+              "gas_proxy_wh": 953761.6409896418,
+              "miss_time_min": 37080.0
+            },
+            "transition": {
+              "gas_proxy_wh": 1051226.471942514,
+              "miss_time_min": 37080.0
+            },
+            "scheduled": {
+              "gas_proxy_wh": 3321533.1589722666,
+              "miss_time_min": 37080.0
+            },
+            "reactive": {
+              "gas_proxy_wh": 979412.6489951363,
+              "miss_time_min": 37080.0
+            }
+          },
+          {
+            "target_fpr": 0.1,
+            "baseline_threshold": 1.0,
+            "transition_threshold": 1.0,
+            "preheat": {
+              "gas_proxy_wh": 1016520.309355792,
+              "miss_time_min": 37080.0
+            },
+            "transition": {
+              "gas_proxy_wh": 958870.9584195006,
+              "miss_time_min": 37080.0
+            },
+            "scheduled": {
+              "gas_proxy_wh": 3234226.033775502,
+              "miss_time_min": 37050.0
+            },
+            "reactive": {
+              "gas_proxy_wh": 1022524.4558195852,
+              "miss_time_min": 37080.0
+            }
+          },
+          {
+            "target_fpr": 0.2,
+            "baseline_threshold": 1.0,
+            "transition_threshold": 1.0,
+            "preheat": {
+              "gas_proxy_wh": 1019448.6222701947,
+              "miss_time_min": 37080.0
+            },
+            "transition": {
+              "gas_proxy_wh": 1113507.4779921037,
+              "miss_time_min": 37080.0
+            },
+            "scheduled": {
+              "gas_proxy_wh": 3429778.1340956097,
+              "miss_time_min": 36360.0
+            },
+            "reactive": {
+              "gas_proxy_wh": 1129256.5152918482,
+              "miss_time_min": 37080.0
+            }
+          }
+        ],
+        "sim_lookahead_min": 15
+      }
+    ]
+  },
+  "datasets": [
+    {
+      "dataset": "synthetic_multiroom_occupancy_thermal_sim",
+      "examples": [
+        {
+          "input": "Topology 'studio_linear_regular' (3 rooms, regularity=0.85): predict room occupancy [15, 30, 45, 60] min ahead and drive anticipatory heating.",
+          "output": "{\"roc_auc_by_lookahead\": {\"15\": {\"baseline\": 0.7527520096469926, \"transition\": 0.859693572851457}, \"30\": {\"baseline\": 0.7466878128725649, \"transition\": 0.8475637975894869}, \"45\": {\"baseline\": 0.740574...",
+          "metadata_topology": "studio_linear_regular",
+          "metadata_n_rooms": 3,
+          "metadata_iid_selftest_row_std": 0.022897627944211615,
+          "predict_baseline_preheat": "{\"15\": 0.7527520096469926, \"30\": 0.7466878128725649, \"45\": 0.7405744851902745, \"60\": 0.732755592460573}",
+          "predict_our_method_transition": "{\"15\": 0.859693572851457, \"30\": 0.8475637975894869, \"45\": 0.8331357470704988, \"60\": 0.8172143426760836}"
+        },
+        {
+          "input": "Topology 'apartment_star_mixed' (4 rooms, regularity=0.55): predict room occupancy [15, 30, 45, 60] min ahead and drive anticipatory heating.",
+          "output": "{\"roc_auc_by_lookahead\": {\"15\": {\"baseline\": 0.6930284801598566, \"transition\": 0.8133037417519879}, \"30\": {\"baseline\": 0.674403072891971, \"transition\": 0.7965643737899083}, \"45\": {\"baseline\": 0.656598...",
+          "metadata_topology": "apartment_star_mixed",
+          "metadata_n_rooms": 4,
+          "metadata_iid_selftest_row_std": 0.014675006559682319,
+          "predict_baseline_preheat": "{\"15\": 0.6930284801598566, \"30\": 0.674403072891971, \"45\": 0.6565982450183441, \"60\": 0.6494810417610589}",
+          "predict_our_method_transition": "{\"15\": 0.8133037417519879, \"30\": 0.7965643737899083, \"45\": 0.7884188077665449, \"60\": 0.7767268409142076}"
+        },
+        {
+          "input": "Topology 'house_5room_irregular' (5 rooms, regularity=0.25): predict room occupancy [15, 30, 45, 60] min ahead and drive anticipatory heating.",
+          "output": "{\"roc_auc_by_lookahead\": {\"15\": {\"baseline\": 0.700269861198298, \"transition\": 0.8242482155727604}, \"30\": {\"baseline\": 0.6854393299723228, \"transition\": 0.8087369627068417}, \"45\": {\"baseline\": 0.670152...",
+          "metadata_topology": "house_5room_irregular",
+          "metadata_n_rooms": 5,
+          "metadata_iid_selftest_row_std": 0.014731277321861568,
+          "predict_baseline_preheat": "{\"15\": 0.700269861198298, \"30\": 0.6854393299723228, \"45\": 0.6701521023460459, \"60\": 0.662503712972126}",
+          "predict_our_method_transition": "{\"15\": 0.8242482155727604, \"30\": 0.8087369627068417, \"45\": 0.7960871009040019, \"60\": 0.7812264169413574}"
+        }
+      ]
+    }
+  ]
+}
