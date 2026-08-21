@@ -1,0 +1,344 @@
+{
+  "metadata": {
+    "method_name": "PreHeat-KNN vs HMM vs Room-Transition-Markov occupancy forecasting + RC-thermal-sim energy savings",
+    "houses_evaluated": [
+      "aruba",
+      "cairo",
+      "milan",
+      "tulum"
+    ],
+    "hmm_backend": "hmmlearn.CategoricalHMM",
+    "hmm_fallback_rooms": {},
+    "lookaheads_min": [
+      15,
+      30,
+      45,
+      60
+    ],
+    "n_bootstrap_auc": 300,
+    "n_bootstrap_topology": 5000,
+    "fp_rates_evaluated": [
+      0.05,
+      0.1,
+      0.15,
+      0.2
+    ],
+    "synthetic_configs_run": [
+      {
+        "room_count": 3,
+        "adjacency_type": "linear",
+        "regularity": 0.55
+      },
+      {
+        "room_count": 3,
+        "adjacency_type": "star",
+        "regularity": 0.55
+      },
+      {
+        "room_count": 3,
+        "adjacency_type": "hallway",
+        "regularity": 0.55
+      },
+      {
+        "room_count": 3,
+        "adjacency_type": "loop",
+        "regularity": 0.55
+      },
+      {
+        "room_count": 4,
+        "adjacency_type": "linear",
+        "regularity": 0.55
+      },
+      {
+        "room_count": 4,
+        "adjacency_type": "star",
+        "regularity": 0.55
+      },
+      {
+        "room_count": 4,
+        "adjacency_type": "hallway",
+        "regularity": 0.55
+      },
+      {
+        "room_count": 4,
+        "adjacency_type": "loop",
+        "regularity": 0.55
+      },
+      {
+        "room_count": 5,
+        "adjacency_type": "linear",
+        "regularity": 0.55
+      },
+      {
+        "room_count": 5,
+        "adjacency_type": "star",
+        "regularity": 0.55
+      },
+      {
+        "room_count": 5,
+        "adjacency_type": "hallway",
+        "regularity": 0.55
+      },
+      {
+        "room_count": 5,
+        "adjacency_type": "loop",
+        "regularity": 0.55
+      },
+      {
+        "room_count": 6,
+        "adjacency_type": "linear",
+        "regularity": 0.55
+      },
+      {
+        "room_count": 6,
+        "adjacency_type": "star",
+        "regularity": 0.55
+      },
+      {
+        "room_count": 6,
+        "adjacency_type": "hallway",
+        "regularity": 0.55
+      },
+      {
+        "room_count": 6,
+        "adjacency_type": "loop",
+        "regularity": 0.55
+      },
+      {
+        "room_count": 4,
+        "adjacency_type": "hallway",
+        "regularity": 0.25
+      },
+      {
+        "room_count": 4,
+        "adjacency_type": "hallway",
+        "regularity": 0.85
+      }
+    ],
+    "cross_topology_bootstrap_ci": {
+      "transition_markov_vs_preheat_knn": {
+        "mean_savings_pct": 19.315098913046896,
+        "ci_low": 14.755752643092945,
+        "ci_high": 23.67622700002312,
+        "n_configs": 18,
+        "ci_excludes_zero": true
+      },
+      "hmm_vs_preheat_knn": {
+        "mean_savings_pct": 8.941007549351509,
+        "ci_low": 4.239057636143996,
+        "ci_high": 13.002872637214129,
+        "n_configs": 18,
+        "ci_excludes_zero": true
+      },
+      "transition_markov_vs_hmm": {
+        "mean_savings_pct": 11.270479988542995,
+        "ci_low": 7.846814503270418,
+        "ci_high": 14.45066126973777,
+        "n_configs": 18,
+        "ci_excludes_zero": true
+      }
+    },
+    "real_casas_savings_summary": {
+      "n_houses": 4,
+      "note": "n=4 houses, too small for a bootstrap CI to be meaningful; NOT pooled with synthetic CI",
+      "transition_vs_preheat_mean_pct": -0.19000557117483008,
+      "raw_values": [
+        0.4017857142857143,
+        -8.436213991769547,
+        -8.60082304526749,
+        5.062849162011173,
+        -2.160919540229885,
+        -1.3507981989357347,
+        -6.549324600900532,
+        3.733997155049787,
+        -14.559386973180077,
+        1.5058823529411764,
+        -10.776470588235295,
+        7.857142857142857,
+        4.002163331530557,
+        10.51643192488263,
+        2.816901408450704,
+        13.496693893426682
+      ]
+    },
+    "deviations_from_plan": [
+      "AUC bootstrap resamples reduced to 300 (spec: 1000) to fit the compute budget.",
+      "Thermal simulation subsamples to the first 10 TEST days and the 6 most-active rooms per house/config (full grid too slow for the budget).",
+      "Room-transition model is a bin-level (15min) first-order Markov chain derived from the empirical next-room distribution plus an exponential-holding-time approximation (p_stay = exp(-15/mean_dwell)); this is a deliberate discretization of the continuous dwell-time model described in the plan, not the raw continuous-time chain.",
+      "RC-network thermal simulator + HeatRate rule is a from-scratch minimal reimplementation (no prior-iteration simulator code was found in the dependency workspace) using a synthetic diurnal ambient-temperature trace; documented explicitly per the fallback plan."
+    ],
+    "runtime_seconds": 117.59648633003235
+  },
+  "datasets": [
+    {
+      "dataset": "real_casas_auc_evaluation",
+      "examples": [
+        {
+          "input": "real_casas_auc_evaluation row: {\"house\": \"aruba\", \"lookahead_min\": 15, \"predictor\": \"preheat_knn\", \"auc\": 0.7055298807092882, \"ci_low\": 0.6955878671441865, \"ci_high\": 0.7144738000535561, \"n_pairs\": 18414}",
+          "output": "{\"house\": \"aruba\", \"lookahead_min\": 15, \"predictor\": \"preheat_knn\", \"auc\": 0.7055298807092882, \"ci_low\": 0.6955878671441865, \"ci_high\": 0.7144738000535561, \"n_pairs\": 18414}",
+          "predict_auc": "0.7055298807092882",
+          "metadata_house": "aruba",
+          "metadata_lookahead_min": 15,
+          "metadata_predictor": "preheat_knn",
+          "metadata_auc": 0.7055298807092882,
+          "metadata_ci_low": 0.6955878671441865,
+          "metadata_ci_high": 0.7144738000535561,
+          "metadata_n_pairs": 18414
+        },
+        {
+          "input": "real_casas_auc_evaluation row: {\"house\": \"aruba\", \"lookahead_min\": 15, \"predictor\": \"hmm\", \"auc\": 0.7076512714307993, \"ci_low\": 0.6982055672770529, \"ci_high\": 0.7161795945373318, \"n_pairs\": 18414}",
+          "output": "{\"house\": \"aruba\", \"lookahead_min\": 15, \"predictor\": \"hmm\", \"auc\": 0.7076512714307993, \"ci_low\": 0.6982055672770529, \"ci_high\": 0.7161795945373318, \"n_pairs\": 18414}",
+          "predict_auc": "0.7076512714307993",
+          "metadata_house": "aruba",
+          "metadata_lookahead_min": 15,
+          "metadata_predictor": "hmm",
+          "metadata_auc": 0.7076512714307993,
+          "metadata_ci_low": 0.6982055672770529,
+          "metadata_ci_high": 0.7161795945373318,
+          "metadata_n_pairs": 18414
+        },
+        {
+          "input": "real_casas_auc_evaluation row: {\"house\": \"aruba\", \"lookahead_min\": 15, \"predictor\": \"transition_markov\", \"auc\": 0.6099848302401409, \"ci_low\": 0.5999159608213683, \"ci_high\": 0.6201495568872718, \"n_pairs\": 18414}",
+          "output": "{\"house\": \"aruba\", \"lookahead_min\": 15, \"predictor\": \"transition_markov\", \"auc\": 0.6099848302401409, \"ci_low\": 0.5999159608213683, \"ci_high\": 0.6201495568872718, \"n_pairs\": 18414}",
+          "predict_auc": "0.6099848302401409",
+          "metadata_house": "aruba",
+          "metadata_lookahead_min": 15,
+          "metadata_predictor": "transition_markov",
+          "metadata_auc": 0.6099848302401409,
+          "metadata_ci_low": 0.5999159608213683,
+          "metadata_ci_high": 0.6201495568872718,
+          "metadata_n_pairs": 18414
+        }
+      ]
+    },
+    {
+      "dataset": "real_casas_shuffle_control",
+      "examples": [
+        {
+          "input": "real_casas_shuffle_control row: {\"house\": \"aruba\", \"lookahead_min\": 15, \"predictor\": \"transition_markov_shuffled\", \"auc\": 0.6099848302401409, \"ci_low\": 0.5996749200787053, \"ci_high\": 0.6209661074333387, \"n_pairs\": 18414}",
+          "output": "{\"house\": \"aruba\", \"lookahead_min\": 15, \"predictor\": \"transition_markov_shuffled\", \"auc\": 0.6099848302401409, \"ci_low\": 0.5996749200787053, \"ci_high\": 0.6209661074333387, \"n_pairs\": 18414}",
+          "predict_auc": "0.6099848302401409",
+          "metadata_house": "aruba",
+          "metadata_lookahead_min": 15,
+          "metadata_predictor": "transition_markov_shuffled",
+          "metadata_auc": 0.6099848302401409,
+          "metadata_ci_low": 0.5996749200787053,
+          "metadata_ci_high": 0.6209661074333387,
+          "metadata_n_pairs": 18414
+        },
+        {
+          "input": "real_casas_shuffle_control row: {\"house\": \"aruba\", \"lookahead_min\": 30, \"predictor\": \"transition_markov_shuffled\", \"auc\": 0.6129474593454165, \"ci_low\": 0.6028877443816341, \"ci_high\": 0.6221649257000909, \"n_pairs\": 18414}",
+          "output": "{\"house\": \"aruba\", \"lookahead_min\": 30, \"predictor\": \"transition_markov_shuffled\", \"auc\": 0.6129474593454165, \"ci_low\": 0.6028877443816341, \"ci_high\": 0.6221649257000909, \"n_pairs\": 18414}",
+          "predict_auc": "0.6129474593454165",
+          "metadata_house": "aruba",
+          "metadata_lookahead_min": 30,
+          "metadata_predictor": "transition_markov_shuffled",
+          "metadata_auc": 0.6129474593454165,
+          "metadata_ci_low": 0.6028877443816341,
+          "metadata_ci_high": 0.6221649257000909,
+          "metadata_n_pairs": 18414
+        },
+        {
+          "input": "real_casas_shuffle_control row: {\"house\": \"aruba\", \"lookahead_min\": 45, \"predictor\": \"transition_markov_shuffled\", \"auc\": 0.5958657990319204, \"ci_low\": 0.5863961433350755, \"ci_high\": 0.6053032457664813, \"n_pairs\": 18414}",
+          "output": "{\"house\": \"aruba\", \"lookahead_min\": 45, \"predictor\": \"transition_markov_shuffled\", \"auc\": 0.5958657990319204, \"ci_low\": 0.5863961433350755, \"ci_high\": 0.6053032457664813, \"n_pairs\": 18414}",
+          "predict_auc": "0.5958657990319204",
+          "metadata_house": "aruba",
+          "metadata_lookahead_min": 45,
+          "metadata_predictor": "transition_markov_shuffled",
+          "metadata_auc": 0.5958657990319204,
+          "metadata_ci_low": 0.5863961433350755,
+          "metadata_ci_high": 0.6053032457664813,
+          "metadata_n_pairs": 18414
+        }
+      ]
+    },
+    {
+      "dataset": "energy_savings_real_and_synthetic",
+      "examples": [
+        {
+          "input": "energy_savings_real_and_synthetic row: {\"group\": \"aruba\", \"fp_rate\": 0.05, \"method_vs_baseline\": \"hmm_vs_preheat_knn\", \"savings_pct\": -0.5357142857142857, \"misstime_delta_min\": 0.0, \"baseline_energy_kwh\": 840.0, \"method_energy_kwh\": 844.5, \"scope\": \"real_casas_house\"}",
+          "output": "{\"group\": \"aruba\", \"fp_rate\": 0.05, \"method_vs_baseline\": \"hmm_vs_preheat_knn\", \"savings_pct\": -0.5357142857142857, \"misstime_delta_min\": 0.0, \"baseline_energy_kwh\": 840.0, \"method_energy_kwh\": 844.5, \"scope\": \"real_casas_house\"}",
+          "predict_savings_pct": "-0.5357142857142857",
+          "metadata_group": "aruba",
+          "metadata_fp_rate": 0.05,
+          "metadata_method_vs_baseline": "hmm_vs_preheat_knn",
+          "metadata_savings_pct": -0.5357142857142857,
+          "metadata_misstime_delta_min": 0.0,
+          "metadata_baseline_energy_kwh": 840.0,
+          "metadata_method_energy_kwh": 844.5,
+          "metadata_scope": "real_casas_house"
+        },
+        {
+          "input": "energy_savings_real_and_synthetic row: {\"group\": \"aruba\", \"fp_rate\": 0.05, \"method_vs_baseline\": \"transition_markov_vs_preheat_knn\", \"savings_pct\": 0.4017857142857143, \"misstime_delta_min\": 0.0, \"baseline_energy_kwh\": 840.0, \"method_energy_kwh\": 836.625, \"scope\": \"real_casas_house\"}",
+          "output": "{\"group\": \"aruba\", \"fp_rate\": 0.05, \"method_vs_baseline\": \"transition_markov_vs_preheat_knn\", \"savings_pct\": 0.4017857142857143, \"misstime_delta_min\": 0.0, \"baseline_energy_kwh\": 840.0, \"method_energy_kwh\": 836.625, \"scope\": \"real_casas_house\"}",
+          "predict_savings_pct": "0.4017857142857143",
+          "metadata_group": "aruba",
+          "metadata_fp_rate": 0.05,
+          "metadata_method_vs_baseline": "transition_markov_vs_preheat_knn",
+          "metadata_savings_pct": 0.4017857142857143,
+          "metadata_misstime_delta_min": 0.0,
+          "metadata_baseline_energy_kwh": 840.0,
+          "metadata_method_energy_kwh": 836.625,
+          "metadata_scope": "real_casas_house"
+        },
+        {
+          "input": "energy_savings_real_and_synthetic row: {\"group\": \"aruba\", \"fp_rate\": 0.05, \"method_vs_baseline\": \"transition_markov_vs_hmm\", \"savings_pct\": 0.9325044404973357, \"misstime_delta_min\": 0.0, \"baseline_energy_kwh\": 844.5, \"method_energy_kwh\": 836.625, \"scope\": \"real_casas_house\"}",
+          "output": "{\"group\": \"aruba\", \"fp_rate\": 0.05, \"method_vs_baseline\": \"transition_markov_vs_hmm\", \"savings_pct\": 0.9325044404973357, \"misstime_delta_min\": 0.0, \"baseline_energy_kwh\": 844.5, \"method_energy_kwh\": 836.625, \"scope\": \"real_casas_house\"}",
+          "predict_savings_pct": "0.9325044404973357",
+          "metadata_group": "aruba",
+          "metadata_fp_rate": 0.05,
+          "metadata_method_vs_baseline": "transition_markov_vs_hmm",
+          "metadata_savings_pct": 0.9325044404973357,
+          "metadata_misstime_delta_min": 0.0,
+          "metadata_baseline_energy_kwh": 844.5,
+          "metadata_method_energy_kwh": 836.625,
+          "metadata_scope": "real_casas_house"
+        }
+      ]
+    },
+    {
+      "dataset": "synthetic_topology_auc_evaluation",
+      "examples": [
+        {
+          "input": "synthetic_topology_auc_evaluation row: {\"house\": \"synth_linear_3r_0.55\", \"lookahead_min\": 15, \"predictor\": \"preheat_knn\", \"auc\": 0.6061385459533608, \"ci_low\": 0.5415247941517715, \"ci_high\": 0.6679742685337314, \"n_pairs\": 324, \"config\": \"linear_r3_reg0.55\"}",
+          "output": "{\"house\": \"synth_linear_3r_0.55\", \"lookahead_min\": 15, \"predictor\": \"preheat_knn\", \"auc\": 0.6061385459533608, \"ci_low\": 0.5415247941517715, \"ci_high\": 0.6679742685337314, \"n_pairs\": 324, \"config\": \"linear_r3_reg0.55\"}",
+          "predict_auc": "0.6061385459533608",
+          "metadata_house": "synth_linear_3r_0.55",
+          "metadata_lookahead_min": 15,
+          "metadata_predictor": "preheat_knn",
+          "metadata_auc": 0.6061385459533608,
+          "metadata_ci_low": 0.5415247941517715,
+          "metadata_ci_high": 0.6679742685337314,
+          "metadata_n_pairs": 324,
+          "metadata_config": "linear_r3_reg0.55"
+        },
+        {
+          "input": "synthetic_topology_auc_evaluation row: {\"house\": \"synth_linear_3r_0.55\", \"lookahead_min\": 15, \"predictor\": \"hmm\", \"auc\": 0.6468621399176955, \"ci_low\": 0.5784247787489547, \"ci_high\": 0.7059378581311051, \"n_pairs\": 324, \"config\": \"linear_r3_reg0.55\"}",
+          "output": "{\"house\": \"synth_linear_3r_0.55\", \"lookahead_min\": 15, \"predictor\": \"hmm\", \"auc\": 0.6468621399176955, \"ci_low\": 0.5784247787489547, \"ci_high\": 0.7059378581311051, \"n_pairs\": 324, \"config\": \"linear_r3_reg0.55\"}",
+          "predict_auc": "0.6468621399176955",
+          "metadata_house": "synth_linear_3r_0.55",
+          "metadata_lookahead_min": 15,
+          "metadata_predictor": "hmm",
+          "metadata_auc": 0.6468621399176955,
+          "metadata_ci_low": 0.5784247787489547,
+          "metadata_ci_high": 0.7059378581311051,
+          "metadata_n_pairs": 324,
+          "metadata_config": "linear_r3_reg0.55"
+        },
+        {
+          "input": "synthetic_topology_auc_evaluation row: {\"house\": \"synth_linear_3r_0.55\", \"lookahead_min\": 15, \"predictor\": \"transition_markov\", \"auc\": 0.6802126200274348, \"ci_low\": 0.626783996454019, \"ci_high\": 0.7357530517996802, \"n_pairs\": 324, \"config\": \"linear_r3_reg0.55\"}",
+          "output": "{\"house\": \"synth_linear_3r_0.55\", \"lookahead_min\": 15, \"predictor\": \"transition_markov\", \"auc\": 0.6802126200274348, \"ci_low\": 0.626783996454019, \"ci_high\": 0.7357530517996802, \"n_pairs\": 324, \"config\": \"linear_r3_reg0.55\"}",
+          "predict_auc": "0.6802126200274348",
+          "metadata_house": "synth_linear_3r_0.55",
+          "metadata_lookahead_min": 15,
+          "metadata_predictor": "transition_markov",
+          "metadata_auc": 0.6802126200274348,
+          "metadata_ci_low": 0.626783996454019,
+          "metadata_ci_high": 0.7357530517996802,
+          "metadata_n_pairs": 324,
+          "metadata_config": "linear_r3_reg0.55"
+        }
+      ]
+    }
+  ]
+}
