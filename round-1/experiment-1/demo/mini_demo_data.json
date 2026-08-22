@@ -1,0 +1,33 @@
+{
+  "topologies": [
+    {
+      "name": "studio_linear_regular",
+      "rooms": ["bedroom", "living", "kitchen"],
+      "adjacency": {"bedroom": ["living"], "living": ["bedroom", "kitchen"], "kitchen": ["living"]},
+      "regularity": 0.85
+    },
+    {
+      "name": "apartment_star_mixed",
+      "rooms": ["bedroom", "hallway", "living", "kitchen"],
+      "adjacency": {
+        "bedroom": ["hallway"],
+        "hallway": ["bedroom", "living", "kitchen"],
+        "living": ["hallway"],
+        "kitchen": ["hallway"]
+      },
+      "regularity": 0.55
+    },
+    {
+      "name": "house_5room_irregular",
+      "rooms": ["bedroom1", "bedroom2", "hallway", "living", "kitchen"],
+      "adjacency": {
+        "bedroom1": ["hallway"],
+        "bedroom2": ["hallway"],
+        "hallway": ["bedroom1", "bedroom2", "living", "kitchen"],
+        "living": ["hallway", "kitchen"],
+        "kitchen": ["hallway", "living"]
+      },
+      "regularity": 0.25
+    }
+  ]
+}
